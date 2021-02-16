@@ -1,6 +1,6 @@
 # String, StrignBuffer, StringBuilder
 
-# String.class
+# String 클래스
 ## String 클래스는 char 배열에 기능을 추가한 것이다.
 C언어에서는 문자열을 char배열로 다루지만, 객체지향언어인 자바에서는 char배열과 그에 관련된 기능들을 함께 묶어서
 클래스에 정의한다. 객체지향개념이 나오기 이전의 언어들은 데이터와 기능을 따로 다루었지만, 객체지향언어에서는 데이터와
@@ -88,3 +88,56 @@ getByte(String charsetName) 을 사용하면 문자열의 문자 인코딩을 �
 byte[] utf8_str = "가나다".getBytes("UTF-8");
 String str = new String(utf8_str, "UTF-8");
 ```
+
+# StringBuffer 클래스
+String클래스는 인스턴스를 생성할 때 지정된 문자열을 변경할 수 없지만 StringBuffer클래스는 변경이 가능하다. 내부적으로 문자열 편집을 위한 버퍼를 가지고 있으며, StringBuffer인스턴스를 생성할 때 그 크기를 지정할 수 있다. 편집할 문자열의 길이를 고려하여 버퍼의 길이를 충분히 잡아주는게 성능상 좋다. 편집 중인 문자열이 버퍼의 길이를 넘어서게 되면 버퍼의 길이를 늘려주는 작업이 추가로 수행되어 작업의 효율을 떨어트리기 때문이다. StringBuffer클래스는 String클래스와 거의 비슷하다. 차이점은 append() 메서드를 통해 같은 참조의 내용을 변경할 수 있다는 점이다.
+```java
+StringBuffer sb1 = new StringBuffer("abc");
+StringBuffer sb2 = new StringBuffer("abc");
+
+assertThat(sb1 == sb2).isFalse();
+assertThat(sb1.equals(sb2)).isFalse();
+assertThat(sb1.toString().equals(sb2.toString())).isTrue();
+```
+
+## 주요 메서드
+|메서드|설명|
+|------|----|
+|StringBuffer()|16문자를 담을 수 있는 버퍼를 가진 StringBuffer인스턴스를 생성한다|
+|StringBuffer(int length)|지정된 개수의 문자를 담을 수 있는 버퍼를 가진 StringBuffer인스턴스를 생성한다|
+|StringBuffer(String str)|입력된 문자열을 값으로 갖는StringBuffer인스턴스를 생성한다|
+|StringBuffer append(boolean b)| 매개변수로 입력된 값을 문자열로 변환하여 StringBuffer인스턴스가 저장하고 있는 문자열 뒤에 덧붙이고 자신을 반환한다 |
+|StringBuffer append(char c)| |
+|StringBuffer append(char[] str)| |
+|StringBuffer append(double d)| |
+|StringBuffer append(float f)| |
+|StringBuffer append(int i)| |
+|StringBuffer append(long l)| |
+|StringBuffer append(Object obj)| |
+|StringBuffer append(String str)| |
+|int capacity()|StringBuffer인스턴스의 버퍼크기를 반환, length와 다름|
+|int length()|StringBuffer인스턴스에 저장되어 있는 문자열의 길이를 반환|
+|char charAt(int index)|해당 위치에 있는 문자를 반환|
+|StringBuffer delete(int start, int end)|start<= 범위 < end 사이에 있는 문자를 제거한다|
+|StringBuffer deleteCharAt(int index)|지정된 위치의 문자를 제거한다|
+|StringBuffer insert(int pos, boolean b)|두 번째 매개변수로 받은 값을 문자열로 변환하여 지정된 위치에 추가한다|
+|StringBuffer insert(int pos, char c)||
+|StringBuffer insert(int pos, char[] str)||
+|StringBuffer insert(int pos, double d)||
+|StringBuffer insert(int pos, float f)||
+|StringBuffer insert(int pos, int i)||
+|StringBuffer insert(int pos, long l)||
+|StringBuffer insert(int pos, Object obj)||
+|StringBuffer insert(int pos, String str)||
+|StringBuffer replace(int start, int end, String str)|start <= 범위 < end 범위의 문자들을 주어진 문자열로 바꾼다|
+|StringBuffer reverse()|StringBuffer인스턴스에 저장되어 있는 문자열의 순서를 거꾸로 나열한다|
+|void setCharAt(int index, char ch)|지정된 위치의 문자를 주어진 문자로 바꾼다|
+|void setLength(int newLength)|지정된 길이로 문자열의 길이를 변경한다. 길이를 늘릴 경우 빈공간을 널문자 '\u0000'로 채운다|
+|String toString()|StringBuffer인스턴스의 문자열을 String으로 반환한다|
+|String substring(int start)|시작위치부터 문자열 끝까지 뽑아서 반환한다|
+|String substring(int start, int end)|start <= 범위 < end 내의 지정된 문자열을 String으로 뽑아서 반환한다|
+
+# StringBuilder 클래스
+StringBuffer는 멀티쓰레드에 안전하도록 동기화 되어 있다. 그러나 동기화는 성능을 떨어트리기 때문에. 싱글스레드 환경에서 성능 최적화가 필요한 상황에서
+굳이 StringBuffer를 사용해서 성능저하를 일으킬 필요가 없다. 이런 상황을 위해 탄생한 클래스가 바로 StringBuilder이다. StringBuilder는 StringBuffer에서 쓰레기 동기화 부분만 뺀 기능은 동일한 클래스이다. 하지만 StringBuffer도 충분히 성능이 좋기 때문에 성능향상이 반드시 필요한 경우를 제외하고는 StringBuilder로 굳이 바꿀 필요는 없다.
+
